@@ -137,6 +137,14 @@ contract CoronavirusDisease is ERC1155Supply ,Ownable,Pausable{
       return false;
     }
 
+    function name() public view returns (string memory) {
+        return name_;
+    }
+
+    function symbol() public view returns (string memory) {
+        return symbol_;
+    }   
+
 
     function uri(uint256 _id) public view override returns (string memory) {
       require(exists(_id), "URI: nonexistent token");
@@ -182,6 +190,10 @@ contract CoronavirusDisease is ERC1155Supply ,Ownable,Pausable{
 
       redeemFee = _fee;
     }
+
+    function setURI(string memory baseURI) external onlyOwner {
+        _setURI(baseURI);
+    }           
 
     function withdraw(uint256 _amount) external onlyOwner {
       require(isWithdraw && block.number <= (lastTrueBlock + lockBlock));

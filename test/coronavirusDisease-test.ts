@@ -18,6 +18,7 @@ describe("coronavirusDisease",() => {
   const leaves = wthitelist.map(x => keccak256(x));
   const tree = new MerkleTree(leaves,keccak256);
   const root = tree.getHexRoot();
+  console.log('root:',root);
   const proof = tree.getHexProof(keccak256('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266'));
 
   
