@@ -13,24 +13,24 @@ import "./IERC721.sol";
 
 contract CoronavirusDisease is ERC1155Supply ,Ownable,Pausable{
 
-    string public name_;
-    string public symbol_;
+    string private name_;
+    string private symbol_;
 
 
-    uint8 onceMintMax = 5;
-    uint8 holderMintMax = 1;
-    uint8 whitelistMintMax = 3;
+    uint256 onceMintMax = 5;
+    uint256 holderMintMax = 1;
+    uint256 whitelistMintMax = 3;
 
-    uint256 public basePrice = 4000000000000000;
-    uint256 public price = 2000000000000000;
+    uint256 public basePrice = 40000000000000000;
+    uint256 public price = 20000000000000000;
 
     uint256 public baseSupply = 5000;
     uint256 public supply = 2000;
 
    
-    uint256 public holderPurchaseStart    = 1641811968;
-    uint256 public whitelistPurchaseStart = 1641811968;
-    uint256 public publicPurchaseStart    = 1641811968;
+    uint256 public holderPurchaseStart    = 3641811968;
+    uint256 public whitelistPurchaseStart = 3641811968;
+    uint256 public publicPurchaseStart    = 3641811968;
 
     uint256 public redeemFee = 0;//200 => 2%,500 => 5%
 
@@ -41,7 +41,7 @@ contract CoronavirusDisease is ERC1155Supply ,Ownable,Pausable{
     bytes32 public merkleRoot;
 
     bool public isWithdraw = false;
-    uint256 public lockBlock = 10;
+    uint256 public lockBlock = 14400;
     uint256 public lastTrueBlock = 0;
 
     mapping(address => uint256) public purchaseTxs;
@@ -156,7 +156,7 @@ contract CoronavirusDisease is ERC1155Supply ,Ownable,Pausable{
       merkleRoot = _merkleRoot;
     }
 
-    function setMintMax(uint8 _onceMintMax,uint8 _holderMintMax,uint8 _whitelistMintMax) external onlyOwner {
+    function setMintMax(uint256 _onceMintMax,uint256 _holderMintMax,uint256 _whitelistMintMax) external onlyOwner {
       require(_onceMintMax > 0 && _holderMintMax > 0 && _whitelistMintMax > 0 ,"Parameter error");
 
       onceMintMax = _onceMintMax;
@@ -164,7 +164,7 @@ contract CoronavirusDisease is ERC1155Supply ,Ownable,Pausable{
       whitelistMintMax = _whitelistMintMax;
     }
 
-    function setPurchaseStart(uint8 _holderPurchaseStart,uint8 _whitelistPurchaseStart,uint8 _publicPurchaseStart) external onlyOwner {
+    function setPurchaseStart(uint256 _holderPurchaseStart,uint256 _whitelistPurchaseStart,uint256 _publicPurchaseStart) external onlyOwner {
       require(_publicPurchaseStart > _whitelistPurchaseStart
               && _whitelistPurchaseStart > _holderPurchaseStart ,"Parameter error");
 
@@ -177,6 +177,13 @@ contract CoronavirusDisease is ERC1155Supply ,Ownable,Pausable{
       require(_basePrice >= 0 && _price >= 0 ,"Parameter error");
       basePrice = _basePrice;
       price = _price;
+      for(uint8 i = 0; i < 3; i++){
+            nfts[i] = NftConfig({
+              id: i,
+              price: basePrice + (i*price),
+              maxSupply: baseSupply - (i*supply)
+            });
+        }
     }
 
     function setHolderNft(address _nft) external onlyOwner {
