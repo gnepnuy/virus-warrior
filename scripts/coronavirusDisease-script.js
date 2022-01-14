@@ -16,14 +16,26 @@ async function main() {
   // We get the contract to deploy
   const CoronavirusDisease = await hre.ethers.getContractFactory("CoronavirusDisease");
 
-  const name = "Coronavirus disease vaccine";
-  const symbol = "cdv";
+  const name = "Coronavirus disease";
+  const symbol = "cd";
   const uri = "ipfs://ipfs/Qmez8cpQbmDNr3taEsG5CVQA2RwEanWc5hgyPDvQDZBQbh";
   const coronavirusDisease = await CoronavirusDisease.deploy(name,symbol,uri);
 
   await coronavirusDisease.deployed();
 
   console.log("coronavirusDisease deployed to:", coronavirusDisease.address);
+
+
+  const CoronavirusDiseaseVaccine = await hre.ethers.getContractFactory("CoronavirusDiseaseVaccine");
+
+  const name = "Coronavirus disease vaccine";
+  const symbol = "cdv";
+  const uri = "ipfs://ipfs/Qmez8cpQbmDNr3taEsG5CVQA2RwEanWc5hgyPDvQDZBQbh";
+  const coronavirusDiseaseVaccine = await CoronavirusDiseaseVaccine.deploy(name,symbol,uri);
+
+  await coronavirusDiseaseVaccine.deployed();
+
+  console.log("coronavirusDiseaseVaccine deployed to:", coronavirusDiseaseVaccine.address);
 
 
 }

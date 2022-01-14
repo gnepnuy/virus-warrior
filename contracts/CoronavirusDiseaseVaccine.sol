@@ -12,7 +12,7 @@ import "./IERC20.sol";
 
 
 
-contract CoronavirusDisease is ERC1155Supply ,Ownable,Pausable{
+contract CoronavirusDiseaseVaccine is ERC1155Supply ,Ownable,Pausable{
 
     string private name_;
     string private symbol_;
